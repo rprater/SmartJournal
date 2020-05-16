@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/screens/entry.dart';
 import 'dart:math';
 
-class Journal extends StatelessWidget {
+class Journal extends StatefulWidget {
   static const String routeName = 'entry_list';
 
+  @override
+  _JournalState createState() => _JournalState();
+}
+
+class _JournalState extends State<Journal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,7 @@ class Journal extends StatelessWidget {
               margin: EdgeInsets.only(left: 30),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed(Entry.routeName);
+                  onTap(context, -1);
                 },
                 child: Icon(
                   Icons.edit,
@@ -96,7 +102,24 @@ class Journal extends StatelessWidget {
                       ),
 
                     ),
-                    buildMyButtons(context)
+                    FutureBuilder(
+                      future: EntryModel.getAll(),
+                      builder: (BuildContext context, AsyncSnapshot<List<EntryModel>> snapshot) {
+                      if (!snapshot.hasData)
+                        return Text("None");
+                      List<EntryModel> entries = snapshot.data;
+
+                      List<Widget> children = List();
+                      for (EntryModel entry in entries) {
+                        children.add(myButton(context, entry));
+                      }
+
+
+                      return Column(
+                        children: children
+                      );
+                    }
+                    ),
                   ]
                 )
               ],
@@ -105,27 +128,16 @@ class Journal extends StatelessWidget {
         ));
   }
 
-  Column buildMyButtons(BuildContext context) {
-    // implement some logic to call the myButton method
-    return Column(children: <Widget>[
-      myButton(context, "September 12", "7:00 pm"),
-      myButton(context, "September 11", "11:00 pm"),
-      myButton(context, "September 10", "10:00 pm"),
-      myButton(context, "September 9", "9:00 pm"),
-      myButton(context, "September 9", "8:00 pm"),
-      myButton(context, "September 9", "1:00 pm"),
-      myButton(context, "September 9", "1:00 pm"),
-      myButton(context, "September 9", "1:00 pm"),
-      myButton(context, "September 9", "1:00 pm"),
-      myButton(context, "September 9", "1:00 pm")
-    ]);
+  Future<void> onTap(BuildContext context, int id) async {
+    print(id);
+    await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Entry(id))
+    );
+    setState(() {});
   }
 
-  void onTap(BuildContext context, String text) {
-    Navigator.of(context).pushNamed(Entry.routeName);
-  }
-
-  Widget myButton(BuildContext context, String cardName, String date) {
+  Widget myButton(BuildContext context, EntryModel entry) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 13),
       child: RaisedButton(
@@ -151,17 +163,20 @@ class Journal extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                        date,
+                      "${entry.date}",
                       style: TextStyle(
                         color: Colors.grey.shade600,
                       ),
                     ),
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(cardName,
+                        child: Text(
+                          "${entry.date} - ${entry.id}",
                             style: TextStyle(
                               fontSize: 19.0,
-                            ))),
+                            )
+                        )
+                    ),
                   ]),
               Spacer(),
               Icon(Icons.navigate_next, color: Colors.black)
@@ -169,7 +184,7 @@ class Journal extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          onTap(context, cardName);
+          onTap(context, entry.id);
         },
       ),
     );

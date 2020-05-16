@@ -1,12 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
+import 'package:flutter_app/models/entry_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'dart:async';
-import 'package:flutter_app/models/entry_model.dart';
 
+import 'dart:async';
 
 class DB {
   static final dbName = "sites.db";
@@ -21,29 +18,26 @@ class DB {
   }
 
   static setupDB(Database db) async {
-    String data = await rootBundle.loadString("assets/json/data.json");
-    var jsonStr = json.decode(data);
-
-
+    print("In setup");
     await db.execute("DROP TABLE IF EXISTS ${EntryModel.tableName}");
     await db.execute("CREATE TABLE IF NOT EXISTS ${EntryModel.tableName} ( "
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "body TEXT, "
-        "sentiment INTEGER, "
+        "sentiment REAL, "
         "confidence REAL, "
         "date INTEGER "
         ")");
-
   }
 
 //  Connects to the database
   static Future<Database> _connectDb() async {
+    print("COnnecting");
     var dbDir = await getDatabasesPath();
     var dbPath = join(dbDir, dbName);
 
     Database connection = await openDatabase(
         dbPath,
-        version: 1,
+        version: 2,
         onUpgrade: (Database db, int oldVersion, int newVersion) async {
           await DB.setupDB(db);
         },

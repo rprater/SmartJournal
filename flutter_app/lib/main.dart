@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Color(0xffe2e8f0)
       ),
       routes: {
-        Entry.routeName: (context) => Entry(),
         Journal.routeName: (context) => Journal()
       },
     ); 
