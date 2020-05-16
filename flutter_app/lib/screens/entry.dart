@@ -37,6 +37,13 @@ class _EntryState extends State<Entry> {
     int x = widget.id;
     double test = 0;
 
+    String getText(String time)
+    {
+      if(time.contains("PM"))
+        return "afternoon";
+      return "morning";
+    }
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: WillPopScope(
@@ -64,7 +71,7 @@ class _EntryState extends State<Entry> {
                     Expanded(
                       flex: 30,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -91,7 +98,10 @@ class _EntryState extends State<Entry> {
                                       await entry.delete();
                                       Navigator.pop(context);
                                     },
-                                    child: Icon(Icons.delete_forever),
+                                    child: Icon(
+                                      Icons.delete_forever,
+                                      size: 36.0,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -103,11 +113,22 @@ class _EntryState extends State<Entry> {
                                 children: <Widget>[
                                   Padding(
                                     padding: EdgeInsets.only(bottom: 5),
-                                    child: Text(
-                                      "${TimeDate.weekDay(entry.date)} ${TimeDate.time(entry.date)}",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w600),
+                                    child: 
+                                    Row(
+                                      children: <Widget> [
+                                        Text(
+                                            "${TimeDate.weekDay(entry.date)} ",
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                            getText(TimeDate.time(entry.date)),
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600),
+                                        ),
+                                      ]
                                     ),
                                   ),
                                   Text("${TimeDate.date(entry.date)}",
@@ -132,12 +153,12 @@ class _EntryState extends State<Entry> {
                       ),
 
                     ),
-
-
+            
                     // Top portion
                     Expanded(
                         flex: 70,
                         child: Container(
+                          margin: EdgeInsets.only(top: 20),
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(30)),

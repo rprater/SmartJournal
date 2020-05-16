@@ -206,16 +206,3 @@ class _JournalState extends State<Journal> {
     );
   }
 }
-
-class FlutterSearchBar extends StatefulWidget{
-  @override
-  FlutterText createState() => FlutterText();
-}
-
-class FlutterText extends State<FlutterSearchBar>{
-  @override
-  Widget build(BuildContext context)
-  {
-    return Scaffold();
-  }
-}
