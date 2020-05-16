@@ -3,8 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/screens/entry.dart';
-import 'dart:math';
 
+import 'package:flutter_app/utilities/sendRequests.dart';
 import 'package:flutter_app/utilities/time_date.dart';
 
 class Journal extends StatefulWidget {
@@ -121,6 +121,13 @@ class _JournalState extends State<Journal> {
                       );
                     }
                     ),
+
+                    RaisedButton(
+                      child: Text("Send Sample Request"),
+                      onPressed: () async {
+                        print(await Requests.sendRequest("Happy", "some text goes here", 0));
+                      },
+                    )
                   ]
                 )
               ],
