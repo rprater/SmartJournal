@@ -64,7 +64,7 @@ class Entry extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  "${Demoji.disappointed} ${Demoji.frowning_face} ${Demoji.neutral_face} ${Demoji.slightly_smiling_face} ${Demoji.grin}",
+                  "${Demoji.rage} ${Demoji.confused} ${Demoji.neutral_face} ${Demoji.slightly_smiling_face} ${Demoji.grinning}",
                   style: TextStyle(
                     fontSize: 40
                   ),
@@ -84,15 +84,10 @@ class Entry extends StatelessWidget {
 
                   child: TextField(
                     onTap: () {
-//                      if (_noteSaved == true) {
-//                        setState(() => _noteSaved = false);
-//                      }
                     },
                     maxLines: null,
                     minLines: 20,
-//                    controller: noteController,
                     decoration: InputDecoration(
-
                         border: InputBorder.none,
                         fillColor: Colors.white,
                         hintText: "Add notes..."
