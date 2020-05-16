@@ -8,4 +8,7 @@ We utilize this information to try and understand the pattern behind **what a us
 
 #### Our goal is to provide users with the information they need to make positive change in their life.
 
+
+## Setup & Installation
+
 Please see figma designs [here](https://www.figma.com/file/0l8g4AlfohU0dQrs0E5gOD/RU-Hacks-2020?node-id=15%3A0).
