@@ -40,17 +40,17 @@ class TimeDate {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
 
     String result = "";
-    if (date.month == 0) result = "January";
-    else if (date.month == 1) result = "February";
-    else if (date.month == 2) result = "March";
-    else if (date.month == 3) result = "April";
-    else if (date.month == 4) result = "May";
-    else if (date.month == 5) result = "June";
-    else if (date.month == 6) result = "July";
-    else if (date.month == 7) result = "August";
-    else if (date.month == 8) result = "September";
-    else if (date.month == 9) result = "October";
-    else if (date.month == 10) result = "November";
+    if (date.month == 1) result = "January";
+    else if (date.month == 2) result = "February";
+    else if (date.month == 3) result = "March";
+    else if (date.month == 4) result = "April";
+    else if (date.month == 5) result = "May";
+    else if (date.month == 6) result = "June";
+    else if (date.month == 7) result = "July";
+    else if (date.month == 8) result = "August";
+    else if (date.month == 9) result = "September";
+    else if (date.month == 10) result = "October";
+    else if (date.month == 11) result = "November";
     else result = "December";
 
     return result += " ${date.day}";
