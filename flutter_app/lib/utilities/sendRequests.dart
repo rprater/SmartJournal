@@ -12,6 +12,7 @@ class Requests
     print({'text': text});
 
     var client = http.Client();
+
     try {
       var response = await client.post(
             'http://127.0.0.1:5000/text/sentiment_analysis',

@@ -35,5 +35,6 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
-
+  assets: 
+    - images/line.png
   uses-material-design: true

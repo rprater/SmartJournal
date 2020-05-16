@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:demoji/demoji.dart';
@@ -6,10 +7,7 @@ import 'package:flutter_app/utilities/sendRequests.dart';
 import 'package:flutter_app/utilities/time_date.dart';
 import 'package:provider/provider.dart';
 
-
 class Entry extends StatefulWidget {
-
-
   static const String routeName = 'entry';
   final int id;
 
@@ -20,16 +18,10 @@ class Entry extends StatefulWidget {
 }
 
 class _EntryState extends State<Entry> {
-
   TextEditingController noteController = TextEditingController();
 
-  EntryModel entry = EntryModel(
-    sentiment: 0,
-    id: -1,
-    date: 0,
-    confidence: 0,
-    body: ""
-  );
+  EntryModel entry =
+      EntryModel(sentiment: 0, id: -1, date: 0, confidence: 0, body: "");
 
   @override
   void initState() {
@@ -42,7 +34,6 @@ class _EntryState extends State<Entry> {
 
   @override
   Widget build(BuildContext context) {
-
     int x = widget.id;
     double test = 0;
 
@@ -56,14 +47,13 @@ class _EntryState extends State<Entry> {
           return true;
         },
         child: SafeArea(
-          child: FutureBuilder(
-            future: EntryModel.get(widget.id),
-            builder: (BuildContext context, AsyncSnapshot<EntryModel> snapshot) {
-              if (!snapshot.hasData)
-                return Text("");
+            child: FutureBuilder(
+          future: EntryModel.get(widget.id),
+          builder: (BuildContext context, AsyncSnapshot<EntryModel> snapshot) {
+            if (!snapshot.hasData) return Text("");
 
-              entry = snapshot.data;
-              noteController.text = entry.body;
+            entry = snapshot.data;
+            noteController.text = entry.body;
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -71,21 +61,17 @@ class _EntryState extends State<Entry> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-
                     Expanded(
                       flex: 30,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
-
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-
                             // Command buttons
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-
                                 // Back
                                 Container(
                                   padding: EdgeInsets.symmetric(vertical: 10),
@@ -111,23 +97,23 @@ class _EntryState extends State<Entry> {
                               ],
                             ),
 
-                            // Date
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 5),
-                              child: Text(
-                                "${TimeDate.weekDay(entry.date)} ${TimeDate.time(entry.date)}",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w600
-                                ),
-                              ),
-                            ),
-                            Text(
-                                "${TimeDate.date(entry.date)}",
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: Colors.grey
-                                )
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // Date
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 5),
+                                    child: Text(
+                                      "${TimeDate.weekDay(entry.date)} ${TimeDate.time(entry.date)}",
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Text("${TimeDate.date(entry.date)}",
+                                      style: TextStyle(
+                                          fontSize: 17, color: Colors.grey))
+                                ]
                             )
                           ],
                         ),
@@ -137,12 +123,12 @@ class _EntryState extends State<Entry> {
                     ChangeNotifierProvider(
                       builder: (context) => entry,
                       child: Container(
-                        alignment: Alignment.center,
-                        child: Consumer<EntryModel>(
-                          builder: (context, e, child) {
-                            return ToEmoji(e.sentiment);
-                          },
-                        )
+                          alignment: Alignment.center,
+                          child: Consumer<EntryModel>(
+                            builder: (context, e, child) {
+                              return ToEmoji(e.sentiment);
+                            },
+                          )
                       ),
 
                     ),
@@ -154,8 +140,18 @@ class _EntryState extends State<Entry> {
                         child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
-                              color: Colors.white
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            color: Colors.white,
+                            /*image: DecorationImage(
+                              image: AssetImage(
+                                  "images/line.png"),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                Colors.white,
+                                BlendMode.saturation,
+                              ),
+                            )
+                              */
                           ),
 
                           child: TextField(
@@ -171,20 +167,20 @@ class _EntryState extends State<Entry> {
                             minLines: 20,
                             controller: noteController,
                             decoration: InputDecoration(
-                                border: InputBorder.none,
-                                fillColor: Colors.white,
-                                hintText: "Add notes...",
+                              border: InputBorder.none,
+                              fillColor: Colors.white,
+                              hintText: "Add notes...",
                             ),
 
                             style: TextStyle(
+                              textBaseline: TextBaseline.alphabetic,
                               height: 2,
                             ),
 
                           ),
                         )
                     )
-                  ],
-
+                  ]
                 ),
               );
             },
