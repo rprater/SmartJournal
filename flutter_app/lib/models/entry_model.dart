@@ -44,14 +44,15 @@ class EntryModel {
     if(_filterKey.isEmpty)
       return ls;
 
+    _filterKey = _filterKey.toLowerCase();
     List<EntryModel> filteredList = List();
     
     for(EntryModel entry in ls)
     {
       int currDate = entry.date;
-     // print(TimeDate.date(currDate).contains(_filterKey)); // test
+      // print(TimeDate.date(currDate).contains(_filterKey)); // test
 
-      if(TimeDate.date(currDate).contains(_filterKey))
+      if(TimeDate.date(currDate).toLowerCase().contains(_filterKey))
         filteredList.add(entry);
     }
 

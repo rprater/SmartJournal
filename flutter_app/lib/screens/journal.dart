@@ -16,12 +16,10 @@ class Journal extends StatefulWidget {
 
 class _JournalState extends State<Journal> {
   String currentText = "";
-    
   final myController = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
-
     myController.addListener(() {
       if (myController.text.isEmpty) {
         setState(() {
