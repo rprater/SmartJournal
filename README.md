@@ -1,4 +1,4 @@
-# Machine Learning NLP Smart Journal Application
+## ML Natural Language Processing Smart Journal Application
 
 ### Description
 The Smart Journal application was built to help users clear their head, make important connections between thoughts, feelings, and behaviors, and even buffer or reduce the effects of mental illness! We set out to accomplish this goal by leveraging [Google Clouds Machine Learning Natural Language Processing Service](https://cloud.google.com/natural-language) to create an intelligent journaling application where users can easily create entries which can be analyzed to understand their thoughts, feelings.
