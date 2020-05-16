@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/entry_model.dart';
+import 'package:flutter_app/screens/analytics.dart';
 import 'package:flutter_app/screens/entry.dart';
 import 'package:flutter_app/utilities/time_date.dart';
 
@@ -66,8 +67,12 @@ class _JournalState extends State<Journal> {
                     size: 36.0
                   ),
                   tooltip: 'Open the apps',
-                  onPressed: () {
-                    print("Open up a list of apps");
+                  onPressed: () async {
+                    await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Anylitics() )
+                    );
+                    setState(() {});
                   },
                 ),
               )
