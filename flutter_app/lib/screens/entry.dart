@@ -66,7 +66,7 @@ class Entry extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  "${Demoji.disappointed} ${Demoji.frowning_face} ${Demoji.neutral_face} ${Demoji.slightly_smiling_face} ${Demoji.grin}",
+                  "${Demoji.rage} ${Demoji.confused} ${Demoji.neutral_face} ${Demoji.slightly_smiling_face} ${Demoji.grinning}",
                   style: TextStyle(
                     fontSize: 40
                   ),
