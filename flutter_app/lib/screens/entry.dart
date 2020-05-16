@@ -86,7 +86,7 @@ class _EntryState extends State<Entry> {
                                     onTap: () {
                                       Navigator.maybePop(context);
                                     },
-                                    child: Icon(Icons.arrow_back_ios),
+                                    child: Icon(Icons.arrow_back_ios, size: 30.0),
                                   ),
                                 ),
 
@@ -106,7 +106,7 @@ class _EntryState extends State<Entry> {
                                 ),
                               ],
                             ),
-
+                            
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 // Date
