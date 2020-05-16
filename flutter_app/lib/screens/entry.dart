@@ -125,30 +125,37 @@ class _EntryState extends State<Entry> {
                   // Top portion
                   Expanded(
                     flex: 70,
-                    child: SingleChildScrollView(
-                        child: Container(
+                    child: Container(
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          color: Colors.white),
+                          color: Colors.white,
+                          /*image: DecorationImage(
+                              image: AssetImage(
+                                  "images/line.png"),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                Colors.white,
+                                BlendMode.saturation,
+                              ),) */), 
                       child: TextField(
                         onChanged: (val) {
-//                              entry.body = val;
+                          //  entry.body = val;
                         },
                         maxLines: null,
-                        minLines: 20,
+                        minLines: 10,
+                        enableSuggestions: true,
                         controller: noteController,
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Colors.white,
-                          hintText: "Add notes...",
-                        ),
+                            border: InputBorder.none,
+                            fillColor: Colors.white,
+                            hintText: "Add notes..."),
                         style: TextStyle(
+                          textBaseline: TextBaseline.alphabetic,
                           height: 2,
                         ),
                       ),
                     )),
-                  )
                 ],
               ),
             );
