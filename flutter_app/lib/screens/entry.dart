@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:demoji/demoji.dart';
 import 'package:flutter_app/models/entry_model.dart';
+import 'package:flutter_app/utilities/time_date.dart';
 
 
 class Entry extends StatefulWidget {
@@ -46,6 +47,8 @@ class _EntryState extends State<Entry> {
       backgroundColor: kBackgroundColor,
       body: WillPopScope(
         onWillPop: () async {
+          if (entry.id == -1 && entry.body.length == 0) return true;
+
           await entry.update();
           return true;
         },
@@ -75,31 +78,49 @@ class _EntryState extends State<Entry> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
 
-                            // Back btn
-                            Container(
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.maybePop(context);
-                                },
-                                child: Icon(Icons.arrow_back_ios),
-                              ),
+                            // Command buttons
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+
+                                // Back
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.maybePop(context);
+                                    },
+                                    child: Icon(Icons.arrow_back_ios),
+                                  ),
+                                ),
+
+                                // Delete
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await entry.delete();
+                                      Navigator.pop(context);
+                                    },
+                                    child: Icon(Icons.delete_forever),
+                                  ),
+                                ),
+                              ],
                             ),
 
                             // Date
                             Padding(
                               padding: EdgeInsets.only(bottom: 5),
                               child: Text(
-                                "${entry.date}",
+                                "${TimeDate.weekDay(entry.date)} ${TimeDate.time(entry.date)}",
                                 style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w700
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600
                                 ),
                               ),
                             ),
                             Text(
-                                "${entry.date}",
+                                "${TimeDate.date(entry.date)}",
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.grey

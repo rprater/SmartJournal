@@ -5,6 +5,8 @@ import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/screens/entry.dart';
 import 'dart:math';
 
+import 'package:flutter_app/utilities/time_date.dart';
+
 class Journal extends StatefulWidget {
   static const String routeName = 'entry_list';
 
@@ -128,7 +130,6 @@ class _JournalState extends State<Journal> {
   }
 
   Future<void> onTap(BuildContext context, int id) async {
-    print(id);
     await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Entry(id))
@@ -162,7 +163,7 @@ class _JournalState extends State<Journal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "${entry.date}",
+                      "${TimeDate.time(entry.date)}",
                       style: TextStyle(
                         color: Colors.grey.shade600,
                       ),
@@ -170,7 +171,7 @@ class _JournalState extends State<Journal> {
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.0),
                         child: Text(
-                          "${entry.date} - ${entry.id}",
+                          "${TimeDate.date(entry.date)}",
                             style: TextStyle(
                               fontSize: 19.0,
                             )

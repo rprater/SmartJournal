@@ -1,4 +1,5 @@
 import 'package:flutter_app/screens/entry.dart';
+import 'package:flutter_app/utilities/time_date.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_app/utilities/database.dart';
 
@@ -36,9 +37,17 @@ class EntryModel {
     return itemList;
   }
 
+
+
   static Future<EntryModel> get(int id) async {
     if (id == -1) {
-      return EntryModel(body: "", confidence: 0, date: 0, id: id, sentiment: 0);
+      return EntryModel(
+          body: "",
+          confidence: 0,
+          date: TimeDate.currentDateStamp(),
+          id: id,
+          sentiment: 0
+      );
     }
     Database db = await DB.database;
     final List<Map<String, dynamic>> maps = await db.query(
@@ -55,7 +64,19 @@ class EntryModel {
     return itemList[0];
   }
 
+  Future<void> delete() async {
+    bool isNew = this.id == -1;
+    int result = 0;
 
+    if (!isNew) {
+      Database db = await DB.database;
+      result = await db.delete(
+          EntryModel.tableName,
+          where: "id = ?",
+          whereArgs: [id]
+      );
+    }
+  }
 
 
   Future<int> update() async {
