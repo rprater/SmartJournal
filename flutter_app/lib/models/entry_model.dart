@@ -52,7 +52,8 @@ class EntryModel {
       int currDate = entry.date;
       // print(TimeDate.date(currDate).contains(_filterKey)); // test
 
-      if(TimeDate.date(currDate).toLowerCase().contains(_filterKey))
+      if(TimeDate.date(currDate).toLowerCase().contains(_filterKey) || 
+        entry.body.toLowerCase().contains(_filterKey))
         filteredList.add(entry);
     }
 

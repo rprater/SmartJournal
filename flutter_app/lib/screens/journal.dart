@@ -135,13 +135,6 @@ class _JournalState extends State<Journal> {
                         children: children
                       );
                     }
-                    ),
-
-                    RaisedButton(
-                      child: Text("Send Sample Request"),
-                      onPressed: () async {
-                        print(await Requests.sendRequest("Happy", "some text goes here", 0));
-                      },
                     )
                   ]
                 )
