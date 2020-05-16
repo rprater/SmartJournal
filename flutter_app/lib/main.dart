@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: _navKey,
-      initialRoute: Entry.routeName,
+      initialRoute: Journal.routeName,
       theme: ThemeData(
 
           backgroundColor: Color(0xffe2e8f0)
