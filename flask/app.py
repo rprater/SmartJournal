@@ -1,7 +1,9 @@
 from flask import Flask, request
 from google.cloud import language
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+load_dotenv()
 
 @app.route('/sentiment', methods=['POST'])
 def sentiment_analysis():
