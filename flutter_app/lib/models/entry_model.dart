@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/screens/entry.dart';
 import 'package:flutter_app/utilities/time_date.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_app/utilities/database.dart';
 
-class EntryModel {
+class EntryModel extends ChangeNotifier {
 
   static String get tableName => "entry_table";
 
@@ -21,6 +22,12 @@ class EntryModel {
     this.confidence,
     this.date
   });
+
+
+  void notify() {
+    print("NOTIFYING");
+    notifyListeners();
+  }
 
 
   static Future<List<EntryModel>> getAll() async {
@@ -100,7 +107,8 @@ class EntryModel {
   }
 
 
-  Future<int> update() async {
+
+  Future<int> save() async {
     bool create = this.id == -1;
     Database db = await DB.database;
     int result = 0;

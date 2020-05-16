@@ -3,8 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/screens/entry.dart';
-
-import 'package:flutter_app/utilities/sendRequests.dart';
 import 'package:flutter_app/utilities/time_date.dart';
 
 class Journal extends StatefulWidget {
@@ -81,6 +79,7 @@ class _JournalState extends State<Journal> {
               children: [
                 Column(
                   children: <Widget>[
+                    // search bar
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 7),
                       margin: EdgeInsets.only(bottom: 30),
@@ -88,8 +87,9 @@ class _JournalState extends State<Journal> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12.0)
                       ),
-                      child: Row( // search bar
-//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+
+                      child: Row(
                         children: [
 
                           Expanded(
@@ -135,7 +135,8 @@ class _JournalState extends State<Journal> {
                         children: children
                       );
                     }
-                    )
+                    ),
+
                   ]
                 )
               ],
