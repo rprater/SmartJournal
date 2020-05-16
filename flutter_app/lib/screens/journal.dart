@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/screens/entry.dart';
 import 'dart:math';
@@ -118,24 +119,15 @@ class Journal extends StatelessWidget {
   }
 }
 
-class JournalButton extends StatefulWidget {
-  final String startColor = "Red";
-  final String buttonText = "Blue";
-
+class FlutterSearchBar extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() {
-    return new RaisedButtonState();
-  }
+  FlutterText createState() => FlutterText();
 }
 
-class RaisedButtonState extends State<JournalButton> {
+class FlutterText extends State<FlutterSearchBar>{
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.all(8.0),
-        child: new RaisedButton(
-          child: Text("Click Here"),
-          onPressed: () => {print("The Button was Pressed")},
-        ));
+  Widget build(BuildContext context)
+  {
+    return Scaffold();
   }
 }
