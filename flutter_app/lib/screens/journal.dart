@@ -33,7 +33,7 @@ class Journal extends StatelessWidget {
 }
 
 class JournalButton extends StatefulWidget {
-    
+  
 
   @override
   State<StatefulWidget> createState() {

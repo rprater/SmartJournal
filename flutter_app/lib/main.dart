@@ -19,7 +19,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      home: Journal(),
+      /*      debugShowCheckedModeBanner: false,
       navigatorKey: _navKey,
       initialRoute: Entry.routeName,
       theme: ThemeData(
@@ -28,8 +29,8 @@ class _MyAppState extends State<MyApp> {
       routes: {
         Entry.routeName: (context) => Entry(),
         Journal.routeName: (context) => Journal()
-      },
-    );
+      }, */
+    ); 
   }
 }
 
