@@ -4,8 +4,6 @@ import 'package:demoji/demoji.dart';
 
 
 class Entry extends StatelessWidget {
-
-
   static const String routeName = 'entry';
 
   @override
