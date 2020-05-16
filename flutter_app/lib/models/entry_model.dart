@@ -45,6 +45,25 @@ class EntryModel extends ChangeNotifier {
   }
 
 
+  static Future<List<EntryModel>> getFilteredText(String _filterKey) async {
+    List<EntryModel> ls = await getAll();
+
+    if(_filterKey.isEmpty)
+      return ls;
+
+    List<EntryModel> filteredList = List();
+    
+    for(EntryModel entry in ls)
+    {
+      int currDate = entry.date;
+     // print(TimeDate.date(currDate).contains(_filterKey)); // test
+
+      if(TimeDate.date(currDate).contains(_filterKey))
+        filteredList.add(entry);
+    }
+
+    return filteredList;
+  }
 
   static Future<EntryModel> get(int id) async {
     if (id == -1) {

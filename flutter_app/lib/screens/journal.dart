@@ -15,8 +15,25 @@ class Journal extends StatefulWidget {
 }
 
 class _JournalState extends State<Journal> {
+  String currentText = "";
+    
+  final myController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
+
+    myController.addListener(() {
+      if (myController.text.isEmpty) {
+        setState(() {
+          currentText = "";
+        });
+      } else {
+        setState(() {
+          currentText = myController.text;
+        });
+      }
+    });
+
     return Scaffold(
         appBar: AppBar(
             leading: Container(
@@ -68,7 +85,6 @@ class _JournalState extends State<Journal> {
                   children: <Widget>[
                     // search bar
                     Container(
-                      // has to be implemented in DB
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 7),
                       margin: EdgeInsets.only(bottom: 30),
                       decoration: BoxDecoration(
@@ -83,6 +99,7 @@ class _JournalState extends State<Journal> {
                           Expanded(
                             flex: 1,
                             child: TextField(
+                              controller: myController,
                               onTap: () {
                               },
                               decoration: InputDecoration(
@@ -107,7 +124,7 @@ class _JournalState extends State<Journal> {
 
                     ),
                     FutureBuilder(
-                      future: EntryModel.getAll(),
+                      future: EntryModel.getFilteredText(currentText),
                       builder: (BuildContext context, AsyncSnapshot<List<EntryModel>> snapshot) {
                       if (!snapshot.hasData)
                         return Text("None");
