@@ -11,111 +11,168 @@ class Journal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed(Entry.routeName);
-              },
-              child: Icon(Icons.edit),
-            ),
-            title: Text("Journal"),
-            centerTitle: true,
-            backgroundColor: const Color(0x9F9A90),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.apps),
-                tooltip: 'Open the apps',
-                onPressed: () {
-                  print("Open up a list of apps");
+            leading: Container(
+              margin: EdgeInsets.only(left: 30),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(Entry.routeName);
                 },
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+            title: Text(
+              "Journal",
+              style: TextStyle(
+                color: Colors.grey.shade600
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: kBackgroundColor,
+            elevation: 0,
+            actions: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 30),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.apps,
+                    color: Colors.grey.shade600
+                  ),
+                  tooltip: 'Open the apps',
+                  onPressed: () {
+                    print("Open up a list of apps");
+                  },
+                ),
               )
-            ]),
-        backgroundColor: Colors.grey.shade200,
+            ]
+        ),
+        backgroundColor: kBackgroundColor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(children: <Widget>[
-                  Container(
-                    // has to be implemented in DB
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                        child: Text("Search Entries",
-                            style: TextStyle(
-                              fontSize: 19.0,
-                            ))),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.0)),
-                  ),
-                  buildMyButtons()
-                ])
+                Column(
+                  children: <Widget>[
+                    Container(
+                      // has to be implemented in DB
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+                      margin: EdgeInsets.only(bottom: 30),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.0)
+                      ),
+                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+
+                          Expanded(
+                            flex: 1,
+                            child: TextField(
+                              onTap: () {
+                              },
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  fillColor: Colors.white,
+                                  hintText: "Search entries..."
+                              ),
+                              style: TextStyle(
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 0,
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey.shade400,
+                            ),
+                          )
+                        ],
+                      ),
+
+                    ),
+                    buildMyButtons(context)
+                  ]
+                )
               ],
             ),
           ),
         ));
   }
 
-  Column buildMyButtons() {
+  Column buildMyButtons(BuildContext context) {
     // implement some logic to call the myButton method
     return Column(children: <Widget>[
-      myButton("September 12", "7:00 pm"),
-      myButton("September 11", "11:00 pm"),
-      myButton("September 10", "10:00 pm"),
-      myButton("September 9", "9:00 pm"),
-      myButton("September 9", "8:00 pm"),
-      myButton("September 9", "1:00 pm")
+      myButton(context, "September 12", "7:00 pm"),
+      myButton(context, "September 11", "11:00 pm"),
+      myButton(context, "September 10", "10:00 pm"),
+      myButton(context, "September 9", "9:00 pm"),
+      myButton(context, "September 9", "8:00 pm"),
+      myButton(context, "September 9", "1:00 pm"),
+      myButton(context, "September 9", "1:00 pm"),
+      myButton(context, "September 9", "1:00 pm"),
+      myButton(context, "September 9", "1:00 pm"),
+      myButton(context, "September 9", "1:00 pm")
     ]);
   }
 
-  void onTap(String text) {
-    print("This card has been clicked " + text);
+  void onTap(BuildContext context, String text) {
+    Navigator.of(context).pushNamed(Entry.routeName);
   }
 
-  Padding myButton(String cardName, String date) {
-    double elementHeight = 60.0;
-    return Padding(
-        padding: EdgeInsets.all(16.0),
-        child: ButtonTheme(
-          height: elementHeight,
-          child: RaisedButton(
-            color: Colors.white,
-            elevation: 10.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(8, 8, 20, 8),
-                  width: 16.0,
-                  height: 16.0,
-                  decoration: BoxDecoration(
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)],
-                      borderRadius: BorderRadius.circular(40.0)),
-                ),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(date),
-                      Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(cardName,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 19.0,
-                              ))),
-                    ]),
-                Spacer(),
-                Icon(Icons.navigate_next, color: Colors.black)
-              ],
-            ),
-            onPressed: () {
-              onTap(cardName);
-            },
+  Widget myButton(BuildContext context, String cardName, String date) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 13),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+        ),
+        color: Colors.white,
+        elevation: 1.0,
+        child: Container(
+          padding: EdgeInsets.only(top: 5, bottom: 5, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 20),
+                width: 16.0,
+                height: 16.0,
+                decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(40.0)),
+              ),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                        date,
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(cardName,
+                            style: TextStyle(
+                              fontSize: 19.0,
+                            ))),
+                  ]),
+              Spacer(),
+              Icon(Icons.navigate_next, color: Colors.black)
+            ],
           ),
-        ));
+        ),
+        onPressed: () {
+          onTap(context, cardName);
+        },
+      ),
+    );
   }
 }
 

@@ -84,15 +84,10 @@ class Entry extends StatelessWidget {
 
                   child: TextField(
                     onTap: () {
-//                      if (_noteSaved == true) {
-//                        setState(() => _noteSaved = false);
-//                      }
                     },
                     maxLines: null,
                     minLines: 20,
-//                    controller: noteController,
                     decoration: InputDecoration(
-
                         border: InputBorder.none,
                         fillColor: Colors.white,
                         hintText: "Add notes..."
