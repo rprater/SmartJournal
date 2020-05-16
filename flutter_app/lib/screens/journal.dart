@@ -30,13 +30,12 @@ class Journal extends StatelessWidget {
         ]
       ),
 
-      backgroundColor: kBackgroundColor,
-
-      /*
-      body: SafeArea(
-          child: SingleChildScrollView(
+      backgroundColor: Colors.grey.shade200,
+      
+      body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
+
               child: Column(
                 
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -44,36 +43,56 @@ class Journal extends StatelessWidget {
                 
                 children: [
 
-                   Row(
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child:
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(Entry.routeName);
-                              },
-                              child: Icon(Icons.edit),
-                            ),
-                        ),
-                        Text("Journal"),
-                        Text("List View Button")
-                      ],
-                    ),
-
                   Column(
+
                     children: <Widget>[
-                       Text("Nihal"),
-                       JournalButton()
+                      Container(
+                        padding: EdgeInsets.all(16.0),
+                        color: Colors.white,
+                        child: Center(
+                          child: Text("Search Box")
+                        ),
+                      ),
+                      buildMyButtons()
                     ]
                   )
+                  
                 ],
+
               ),
             ),
           )
-      ), */
     );
     } 
+
+    Center buildMyButtons()
+    {
+      // implement some logic to call the myButton method
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget> [
+            SizedBox( height: 100 ),
+            myButton("test", ""),
+            myButton("test2", "")
+          ]
+        )
+      );
+    }
+    
+    Padding myButton(String textInput, String heading)
+    {
+      return Padding(
+        padding: EdgeInsets.all(16.0),
+        child: RaisedButton(
+          padding: EdgeInsets.fromLTRB(50.0, 20, 50, 20),
+          color: Colors.white,
+          focusColor: Colors.white,
+          elevation: 10.0,
+          child: Text(textInput)
+        )
+      );
+    }
 }
 
 class JournalButton extends StatefulWidget {
