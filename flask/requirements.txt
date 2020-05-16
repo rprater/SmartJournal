@@ -173,6 +173,7 @@ pytest-doctestplus==0.4.0
 pytest-openfiles==0.4.0
 pytest-remotedata==0.3.2
 python-dateutil==2.8.0
+python-dotenv==0.13.0
 pytz==2020.1
 PyWavelets==1.0.3
 PyYAML==5.1.2
