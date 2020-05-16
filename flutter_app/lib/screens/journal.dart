@@ -38,9 +38,16 @@ class Journal extends StatelessWidget {
               children: [
                 Column(children: <Widget>[
                   Container(
+                    // has to be implemented in DB
                     padding: EdgeInsets.all(16.0),
-                    color: Colors.white,
-                    child: Center(child: Text("Search Box")),
+                    child: Center(
+                        child: Text("Search Entries",
+                            style: TextStyle(
+                              fontSize: 19.0,
+                            ))),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0)),
                   ),
                   buildMyButtons()
                 ])
@@ -50,17 +57,23 @@ class Journal extends StatelessWidget {
         ));
   }
 
-  Center buildMyButtons() {
+  Column buildMyButtons() {
     // implement some logic to call the myButton method
-    return Center(
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-      SizedBox(height: 100),
-      myButton("September 12", "7:00 pm", 0xFFFFFF),
-      myButton("September 11", "11:00 pm", 0xFFFFF)
-    ]));
+    return Column(children: <Widget>[
+      myButton("September 12", "7:00 pm"),
+      myButton("September 11", "11:00 pm"),
+      myButton("September 10", "10:00 pm"),
+      myButton("September 9", "9:00 pm"),
+      myButton("September 9", "8:00 pm"),
+      myButton("September 9", "1:00 pm")
+    ]);
   }
 
-  Padding myButton(String cardName, String date, int color1) {
+  void onTap(String text) {
+    print("This card has been clicked " + text);
+  }
+
+  Padding myButton(String cardName, String date) {
     double elementHeight = 60.0;
     return Padding(
         padding: EdgeInsets.all(16.0),
@@ -73,37 +86,32 @@ class Journal extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(8,8,20,8),
+                  margin: EdgeInsets.fromLTRB(8, 8, 20, 8),
                   width: 16.0,
                   height: 16.0,
                   decoration: BoxDecoration(
-                    color: Colors.primaries[Random().nextInt(Colors.primaries.length)], borderRadius: BorderRadius.circular(40.0)),
+                      color: Colors
+                          .primaries[Random().nextInt(Colors.primaries.length)],
+                      borderRadius: BorderRadius.circular(40.0)),
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget> [
-                    Text(date),
-                    
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0), 
-                      child: Text(
-                        cardName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 19.0,
-                        )
-                      )
-                    ),
-                  ]
-                ),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(date),
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(cardName,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 19.0,
+                              ))),
+                    ]),
                 Spacer(),
-                Icon(
-                  Icons.navigate_next, color: Colors.black
-                )
+                Icon(Icons.navigate_next, color: Colors.black)
               ],
             ),
             onPressed: () {
-              print("direct to a card");
+              onTap(cardName);
             },
           ),
         ));
