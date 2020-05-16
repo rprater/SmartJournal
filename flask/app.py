@@ -1,7 +1,7 @@
 import json
 
 from flask import Flask, request, jsonify
-from google.cloud import language
+from google.cloud import language_v1 as language
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -32,7 +32,7 @@ def entity_analysis():
 
     document = language.types.Document(
         content=request.form['text'],
-        type="PLAIN_TEXT"
+        type=language.enums.Document.Type.PLAIN_TEXT
     )
     
     response = client.analyze_entities(
@@ -45,7 +45,7 @@ def entity_analysis():
     for entity in response.entities:
         entities.append({
             "name": entity.name,
-            "type": entity.type,
+            "type": language.enums.Entity.Type(entity.type).name,
             "salience": entity.salience
         })
 
