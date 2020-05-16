@@ -72,7 +72,7 @@ class _JournalState extends State<Journal> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12.0)
                       ),
-                      child: Row(
+                      child: Row( // search bar
 //                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
 
@@ -113,8 +113,7 @@ class _JournalState extends State<Journal> {
                       for (EntryModel entry in entries) {
                         children.add(myButton(context, entry));
                       }
-
-
+                      
                       return Column(
                         children: children
                       );
