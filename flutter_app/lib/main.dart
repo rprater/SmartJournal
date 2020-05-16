@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         Entry.routeName: (context) => Entry(),
         Journal.routeName: (context) => Journal()
-      }, */
+      },*/
     ); 
   }
 }
