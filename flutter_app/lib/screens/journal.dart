@@ -66,6 +66,7 @@ class _JournalState extends State<Journal> {
               children: [
                 Column(
                   children: <Widget>[
+                    // search bar
                     Container(
                       // has to be implemented in DB
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 7),
@@ -74,8 +75,9 @@ class _JournalState extends State<Journal> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12.0)
                       ),
-                      child: Row( // search bar
-//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+
+                      child: Row(
                         children: [
 
                           Expanded(
@@ -125,7 +127,7 @@ class _JournalState extends State<Journal> {
                     RaisedButton(
                       child: Text("Send Sample Request"),
                       onPressed: () async {
-                        print(await Requests.sendRequest("Happy", "some text goes here", 0));
+
                       },
                     )
                   ]

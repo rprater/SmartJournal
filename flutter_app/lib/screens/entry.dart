@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:demoji/demoji.dart';
 import 'package:flutter_app/models/entry_model.dart';
+import 'package:flutter_app/utilities/sendRequests.dart';
 import 'package:flutter_app/utilities/time_date.dart';
+import 'package:provider/provider.dart';
 
 
 class Entry extends StatefulWidget {
@@ -42,6 +44,7 @@ class _EntryState extends State<Entry> {
   Widget build(BuildContext context) {
 
     int x = widget.id;
+    double test = 0;
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -49,7 +52,7 @@ class _EntryState extends State<Entry> {
         onWillPop: () async {
           if (entry.id == -1 && entry.body.length == 0) return true;
 
-          await entry.update();
+          await entry.save();
           return true;
         },
         child: SafeArea(
@@ -130,14 +133,18 @@ class _EntryState extends State<Entry> {
                         ),
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "${Demoji.rage} ${Demoji.confused} ${Demoji.neutral_face} ${Demoji.slightly_smiling_face} ${Demoji.grinning}",
-                        style: TextStyle(
-                            fontSize: 40
-                        ),
+
+                    ChangeNotifierProvider(
+                      builder: (context) => entry,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Consumer<EntryModel>(
+                          builder: (context, e, child) {
+                            return ToEmoji(e.sentiment);
+                          },
+                        )
                       ),
+
                     ),
 
 
@@ -152,8 +159,13 @@ class _EntryState extends State<Entry> {
                           ),
 
                           child: TextField(
-                            onChanged: (val) {
-//                              entry.body = val;
+                            onChanged: (val) async {
+//                              Map< String, dynamic> response = await Requests.sentimentAnalysis(val);
+//                              entry.sentiment = response["score"];
+//                              entry.confidence = response["magnitude"];
+//                              print("s: ${entry.sentiment}");
+//                              entry.notify();
+
                             },
                             maxLines: null,
                             minLines: 20,
@@ -182,3 +194,40 @@ class _EntryState extends State<Entry> {
     );
   }
 }
+
+
+
+
+
+Widget ToEmoji(double sentiment) {
+
+  String result = "";
+  if (sentiment < -0.6)
+    result = ("${Demoji.rage}");
+  else if (-0.6 <= sentiment  && sentiment < -0.2)
+    result = ("${Demoji.confused}");
+  else if (-0.2 <= sentiment  && sentiment < 0.2)
+    result = ("${Demoji.neutral_face}");
+  else if (0.2 <= sentiment  && sentiment < -0.6)
+    result = ("${Demoji.slightly_smiling_face}");
+  else
+    result = ("${Demoji.grinning}");
+
+  return Text(
+    result,
+    style: TextStyle(
+      fontSize: 50
+    ),
+  );
+
+
+}
+
+
+
+
+
+
+
+
+
