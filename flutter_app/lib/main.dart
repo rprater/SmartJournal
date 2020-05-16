@@ -23,14 +23,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: _navKey,
-      initialRoute: EntryList.routeName,
+      initialRoute: Entry.routeName,
       theme: ThemeData(
 
           backgroundColor: Color(0xffe2e8f0)
       ),
       routes: {
         Entry.routeName: (context) => Entry(),
-        EntryList.routeName: (context) => EntryList()
+        Journal.routeName: (context) => Journal()
       },
     );
   }

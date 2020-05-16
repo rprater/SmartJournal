@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/screens/entry.dart';
 
-class EntryList extends StatelessWidget {
+class Journal extends StatelessWidget {
 
   static const String routeName = 'entry_list';
 
