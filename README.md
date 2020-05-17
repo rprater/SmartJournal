@@ -25,6 +25,20 @@ We utilize this information to try and understand the pattern behind **what a us
 
 ### Flutter
 
+1. Install Flutter for [Mac](https://flutter.dev/docs/get-started/install/macos), [Windows](https://flutter.dev/docs/get-started/install/windows) or [Linux](https://flutter.dev/docs/get-started/install/linux)
+
+2. Open your code editor or IDE of choice. [Androd Studio](https://flutter.dev/docs/get-started/editor) works extremely well with Flutter 
+
+3. Navigate to the `/flutter_app` folder
+
+4. Ensure you have a compatable device connected 
+
+5. If you are using a text editor, enter `flutter run` with the device connected to run the project 
+
+6. If you are using Android Studio, instructions are [here](https://flutter.dev/docs/get-started/test-drive/#run-the-app) to run it 
+
+    
+
 ## Extra Information
 
 Please see figma designs [here](https://www.figma.com/file/0l8g4AlfohU0dQrs0E5gOD/RU-Hacks-2020?node-id=15%3A0).
