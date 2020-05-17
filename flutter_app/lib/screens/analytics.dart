@@ -30,7 +30,7 @@ class _AnyliticsState extends State<Anylitics> {
               ),
             ),
             title: Text(
-              "Happy!",
+              "Dashboard",
               style: TextStyle(color: Colors.grey.shade600),
             ),
             centerTitle: true,
