@@ -75,6 +75,7 @@ class _AnyliticsState extends State<Anylitics> {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 13),
         child: RaisedButton(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
           ),
@@ -97,6 +98,7 @@ class _AnyliticsState extends State<Anylitics> {
                     text,
                     style: TextStyle(
                       color: Colors.grey.shade600,
+                      fontSize: 19.0,
                     ),
                   ),
                   Spacer(),
@@ -104,7 +106,7 @@ class _AnyliticsState extends State<Anylitics> {
                 ]),
           ),
           onPressed: () {
-            print("Clicked a button!");
+            print("Clicked ${text} button");
           },
         ),
       );
@@ -116,31 +118,19 @@ class _AnyliticsState extends State<Anylitics> {
       return Colors.orange;
     }
 
-    Widget pickArbitraryCards()
-    {
-      if (currentText == "Where") 
-      {
+    Widget pickArbitraryCards() {
+      if (currentText == "Where") {
         return Column(
-          children: <Widget> [
-            card("Gym"),
-            card("Home")
-          ],
+          children: <Widget>[card("Gym"), card("Home")],
         );
       }
-      if (currentText == "Who") 
-      {
+      if (currentText == "Who") {
         return Column(
-          children: <Widget> [
-            card("Robert"),
-            card("James")
-          ],
+          children: <Widget>[card("Robert"), card("James")],
         );
       }
       return Column(
-        children: <Widget> [
-            card("Coding"),
-            card("Soccer")
-        ],
+        children: <Widget>[card("Coding"), card("Soccer")],
       );
     }
 
@@ -149,14 +139,17 @@ class _AnyliticsState extends State<Anylitics> {
       padding: EdgeInsets.all(10.0),
       child: Column(children: <Widget>[
         Container(
-          margin: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(pickText(),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 19.0,
-            ))),
-        pickArbitraryCards()
+            margin: EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(pickText(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 19.0,
+                ))),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 16.0),
+          child: pickArbitraryCards()
+        )
       ]),
     );
   }
