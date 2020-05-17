@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
@@ -42,6 +44,7 @@ class _JournalState extends State<Journal> {
                 child: Icon(
                   Icons.edit,
                   color: Colors.grey.shade600,
+                  size: 30.0
                 ),
               ),
             ),
@@ -60,7 +63,8 @@ class _JournalState extends State<Journal> {
                 child: IconButton(
                   icon: Icon(
                     Icons.apps,
-                    color: Colors.grey.shade600
+                    color: Colors.grey.shade600,
+                    size: 36.0
                   ),
                   tooltip: 'Open the apps',
                   onPressed: () async {
@@ -117,7 +121,7 @@ class _JournalState extends State<Journal> {
                             flex: 0,
                             child: Icon(
                               Icons.search,
-                              color: Colors.grey.shade400,
+                              color: Colors.grey.shade400
                             ),
                           )
                         ],
@@ -159,6 +163,19 @@ class _JournalState extends State<Journal> {
   }
 
   Widget myButton(BuildContext context, EntryModel entry) {
+
+    Color circleColor()
+    {
+      String time = TimeDate.time(entry.date);
+
+      if(time.contains("PM"))
+      {
+        return TimeDate.getHour(entry.date) < 4? Colors.orange.shade800 : Colors.blue.shade900;
+      }
+
+      return TimeDate.getHour(entry.date) <= 6 ? Colors.yellow.shade300 : Colors.green.shade300;
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 13),
       child: RaisedButton(
@@ -177,7 +194,7 @@ class _JournalState extends State<Journal> {
                 width: 16.0,
                 height: 16.0,
                 decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: circleColor(),
                     borderRadius: BorderRadius.circular(40.0)),
               ),
               Column(

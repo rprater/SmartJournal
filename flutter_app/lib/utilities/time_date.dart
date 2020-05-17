@@ -11,9 +11,17 @@ class TimeDate {
     return DateTime.now().millisecondsSinceEpoch;
   }
 
+  static int getHour(int timestamp)
+  {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    int hour = date.hour > 12 ? date.hour % 12 : date.hour;
+    return hour;
+  }
+
   static String time(int timeStamp) {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-    int hour = date.hour > 12 ? date.hour % 12 : date.hour;
+    int hour = getHour(timeStamp);
+    
     String am_pm = date.hour < 12 ? "AM" : "PM";
     int min = date.minute;
 
