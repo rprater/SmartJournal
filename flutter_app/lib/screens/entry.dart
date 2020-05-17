@@ -113,6 +113,7 @@ class _EntryState extends State<Entry> {
 
 
           await AnalyticsModel.getAllAsMap();
+          await AnalyticsModel.filter(type: "TIME");
           return true;
         },
         child: SafeArea(

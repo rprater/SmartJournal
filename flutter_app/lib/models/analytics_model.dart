@@ -93,17 +93,18 @@ class AnalyticsModel {
   /// The [id] is the id of the note for future references
   static Future<List<AnalyticsModel>> filter({String type}) async {
     Database db = await DB.database;
-//    final List<Map<String, dynamic>> maps = await db.query(
-//        AnalyticsModel.tableName,
-//        where: "type = ?",
-//        whereArgs: [type] // turns the key into a more unique value
-//    ).catchError((error) => print(error));
+    final List<Map<String, dynamic>> maps = await db.query(
+        AnalyticsModel.tableName,
+        where: "type = ?",
+        whereArgs: [type] // turns the key into a more unique value
+    ).catchError((error) => print(error));
 
-//    List<AnalyticsModel> lst = maps.map((map) => AnalyticsModel.fromMap(map));
-//    lst.sort((a, b) {
-//      return 1;
-//    });
-
+    List<AnalyticsModel> lst = [];
+    maps.forEach((map) => lst.add(AnalyticsModel.fromMap(map)));
+    lst.sort((a, b) {
+      return a.sentiment > b.sentiment ? 1 : 0;
+    });
+    return lst;
   }
 
   /// Takes the given entity and removes it from the analytics

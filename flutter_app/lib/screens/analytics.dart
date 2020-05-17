@@ -19,23 +19,27 @@ class _AnyliticsState extends State<Anylitics> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            leading: Container(
-              margin: EdgeInsets.only(left: 30),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Icon(Icons.arrow_back_ios,
-                    color: Colors.grey.shade600, size: 30.0),
+          leading: Container(
+            margin: EdgeInsets.only(left: 30),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back_ios,
+                  color: Colors.grey.shade600, size: 30.0
               ),
             ),
-            title: Text(
-              "Dashboard",
-              style: TextStyle(color: Colors.grey.shade600),
+          ),
+          title: Text(
+            "Dashboard",
+            style: TextStyle(
+                color: Colors.grey.shade600
             ),
-            centerTitle: true,
-            backgroundColor: kBackgroundColor,
-            elevation: 0),
+          ),
+          centerTitle: true,
+          backgroundColor: kBackgroundColor,
+          elevation: 0
+        ),
         backgroundColor: kBackgroundColor,
         body: SingleChildScrollView(
           child: Padding(
@@ -49,22 +53,29 @@ class _AnyliticsState extends State<Anylitics> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      myButton("Where"),
+                      myButton("Where", left: true),
                       myButton("Who"),
-                      myButton("What"),
+                      myButton("What", right: true),
                     ],
                   ),
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Expanded(child: myCards())])
+                    children: [
+                      Expanded(
+                          child: myCards()
+                      )
+                    ]
+                )
               ],
             ),
           ),
-        ));
+        )
+    );
   }
 
   Widget myCards() {
+
     String pickText() {
       if (currentText == "Where") return "This is where you are happiest!";
       if (currentText == "Who") return "This is who makes you the happiest!";
@@ -106,16 +117,10 @@ class _AnyliticsState extends State<Anylitics> {
                 ]),
           ),
           onPressed: () {
-            print("Clicked ${text} button");
+            print("Clicked $text button");
           },
         ),
       );
-    }
-
-    Color pickColor() {
-      if (currentText == "Where") return Colors.white;
-      if (currentText == "Who") return Colors.grey.shade600;
-      return Colors.orange;
     }
 
     Widget pickArbitraryCards() {
@@ -154,29 +159,38 @@ class _AnyliticsState extends State<Anylitics> {
     );
   }
 
-  Widget myButton(String placement) {
-    Color pickColor() {
-      return placement == currentText
-          ? Colors.grey.shade500
-          : Colors.grey.shade400;
-    }
+
+  Widget myButton(String placement, {bool right=false, bool left=false}) {
+    BorderRadiusGeometry border = BorderRadius.only();
+
+    if (right)
+      border = BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20));
+    else if (left)
+      border = BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20));
+
 
     return Expanded(
-        child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 3),
-            child: RaisedButton(
-                elevation: 10.0,
-                color: pickColor(),
-                hoverColor: Colors.grey.shade100,
-                hoverElevation: 2.0,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                onPressed: () {
-                  setState(() {
-                    print(placement + " clicked");
-                    currentText = placement;
-                  });
-                },
-                child: Text(placement, style: TextStyle(fontSize: 19.0)))));
+      child: Container(
+        child: RaisedButton(
+          elevation: 1.0,
+          color: placement == currentText ? Colors.grey.shade500 : Colors.grey.shade400,
+          hoverColor: Colors.grey.shade100,
+          shape: RoundedRectangleBorder(
+              borderRadius: border,
+          ),
+          padding: EdgeInsets.symmetric(vertical: 20),
+          onPressed: () {
+            setState(() {
+              print(placement + " clicked");
+              currentText = placement;
+            }
+            );
+          },
+          child: Text(placement, style: TextStyle(fontSize: 19.0)
+          )
+        )
+      )
+    );
   }
 
   Future<void> onTap(BuildContext context, int id) async {
