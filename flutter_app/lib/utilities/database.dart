@@ -46,7 +46,7 @@ class DB {
 
     Database connection = await openDatabase(
         dbPath,
-        version: 2,
+        version: 1,
         onUpgrade: (Database db, int oldVersion, int newVersion) async {
           await DB.setupDB(db);
         },

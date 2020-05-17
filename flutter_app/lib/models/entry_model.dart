@@ -67,7 +67,24 @@ class EntryModel extends ChangeNotifier {
     return filteredList;
   }
 
+
+  static Future<List<EntryModel>> getBatch(List lst) async {
+    print(lst);
+    List<EntryModel> entries = [];
+
+    for (int id in lst) {
+      print(id);
+      entries.add(await EntryModel.get(id));
+    }
+
+
+    return entries;
+
+  }
+
+
   static Future<EntryModel> get(int id) async {
+    print("In the getting: $id");
     if (id == -1) {
       return EntryModel(
           body: "",
@@ -77,6 +94,7 @@ class EntryModel extends ChangeNotifier {
           sentiment: 0
       );
     }
+
     Database db = await DB.database;
     final List<Map<String, dynamic>> maps = await db.query(
         EntryModel.tableName,
@@ -84,8 +102,10 @@ class EntryModel extends ChangeNotifier {
         whereArgs: [id]
     ).catchError((error) => print(error));
 
-    List<EntryModel> itemList = [];
 
+    List<EntryModel> itemList = [];
+    print("Before");
+    print(maps);
     maps.forEach((map) {
       itemList.add(fromMap(map));
     });
@@ -135,7 +155,7 @@ class EntryModel extends ChangeNotifier {
 
 
   static EntryModel fromMap(Map<String, dynamic> map) {
-
+    print(map);
     EntryModel entry = EntryModel(
         id: map["id"],
         body: map["body"],

@@ -4,6 +4,7 @@ import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/models/analytics_model.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/screens/entry.dart';
+import 'package:flutter_app/screens/filtered_view.dart';
 import 'package:flutter_app/utilities/time_date.dart';
 
 class Anylitics extends StatefulWidget {
@@ -56,7 +57,7 @@ class _AnyliticsState extends State<Anylitics> {
                     children: [
                       myButton("Where", left: true),
                       myButton("Who"),
-                      myButton("What", right: true),
+                      myButton("When", right: true),
                     ],
                   ),
                 ),
@@ -77,14 +78,10 @@ class _AnyliticsState extends State<Anylitics> {
 
   AssetImage pickImage(String text)
   {
-    if(text == "Gym")
-      return AssetImage("images/gym.png");
-
     if(currentText == "Where")
       return AssetImage("images/building.png");
     if(currentText == "Who")
       return AssetImage("images/person.png");
-
     return AssetImage("images/time.png");
   }
 
@@ -96,7 +93,7 @@ class _AnyliticsState extends State<Anylitics> {
       return "This is when you are the happiest!";
     }
 
-    Widget card(String text) {
+    Widget card(AnalyticsModel model) {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 14),
 
@@ -110,32 +107,38 @@ class _AnyliticsState extends State<Anylitics> {
           child: Container(
             padding: EdgeInsets.only(top: 5, bottom: 5, right: 5),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 20),
-                    width: 40.0,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage ( 
-                          image: pickImage(text),
-                          fit: BoxFit.fill
-                        ),
-                        borderRadius: BorderRadius.circular(40.0)),
-                  ),
-                  Text(
-                    text,
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontSize: 19.0,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 20),
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage (
+                      image: pickImage(model.value),
+                      fit: BoxFit.fill
                     ),
+                    borderRadius: BorderRadius.circular(40.0)
                   ),
-                  Spacer(),
-                  Icon(Icons.navigate_next, color: Colors.black)
-                ]),
+                ),
+                Text(
+                  "${model.value}",
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 19.0,
+                  ),
+                ),
+                Spacer(),
+                Icon(Icons.navigate_next, color: Colors.black)
+              ]
+            ),
           ),
-          onPressed: () {
-            print("Clicked $text button");
+          onPressed: () async {
+
+            await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FilteredView(model.occurrences))
+            );
           },
         ),
       );
@@ -145,27 +148,20 @@ class _AnyliticsState extends State<Anylitics> {
 
 
       String type = "LOCATION";
-      if (currentText == "Where") {
+      if (currentText == "Who")
+        type = "PERSON";
+      else if (currentText == "When")
+        type = "TIME";
 
-      }
-
-      List<AnalyticsModel> theCards = await AnalyticsModel.filter(type: "LOCATION");
+      List<AnalyticsModel> theCards = await AnalyticsModel.filter(type: type);
       print(theCards);
 
       List<Widget> lst = [];
       for (AnalyticsModel analytic in theCards)
-        lst.add(card(analytic.value));
+        lst.add(card(analytic));
 
       return Column(children: lst);
 
-//      if (currentText == "Who") {
-//        return Column(
-//          children: <Widget>[card("Robert"), card("James")],
-//        );
-//      }
-//      return Column(
-//        children: <Widget>[card("Coding"), card("Soccer")],
-//      );
     }
 
     return Container(
@@ -176,7 +172,7 @@ class _AnyliticsState extends State<Anylitics> {
             child: Text(
               pickText(),
               style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 color: Colors.black,
                 fontSize: 19.0,
               )

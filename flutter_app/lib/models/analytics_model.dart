@@ -22,6 +22,8 @@ class AnalyticsModel {
   AnalyticsModel({this.value, this.type, this.sentiment, this.occurrences});
 
 
+
+
   /// Used for testing purposes to print all values in the AnalyticModel table
   static Future<void> getAllAsMap() async {
     Database db = await DB.database;
@@ -36,7 +38,6 @@ class AnalyticsModel {
     }
 
   }
-
 
 
   /// Takes a given [val] and [type] and uses that to grab an Analytic model
@@ -102,7 +103,7 @@ class AnalyticsModel {
     List<AnalyticsModel> lst = [];
     maps.forEach((map) => lst.add(AnalyticsModel.fromMap(map)));
     lst.sort((a, b) {
-      return a.sentiment > b.sentiment ? 1 : 0;
+      return a.sentiment < b.sentiment ? 1 : 0;
     });
     return lst;
   }
@@ -112,7 +113,7 @@ class AnalyticsModel {
   /// The [sentiment] is the value from -1 to 1
   /// The [type] is weather it's a person, place, etc
   /// The [id] is the id of the note for future references
-  static Future<void> remove({String val, String type, int id, int sentiment}) async {
+  static Future<void> remove({String val, String type, int id, double sentiment}) async {
     AnalyticsModel model = await AnalyticsModel._get(val, type);
     if (model.value != val)
       throw "The values do not match up!";

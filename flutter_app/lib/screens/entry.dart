@@ -25,7 +25,7 @@ class _EntryState extends State<Entry> {
 
   EntryModel entry = EntryModel(sentiment: 0, id: -1, date: 0, confidence: 0, body: "");
   double oldSentiment = 0;
-
+  bool delete = false;
 
   @override
   void initState() {
@@ -38,57 +38,40 @@ class _EntryState extends State<Entry> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> list = [
-      {
-        "name": "lot",
-        "salience": 0.44694051146507263,
-        "type": "OTHER"
-      },
-      {
-        "name": "John",
-        "salience": 0.18721692264080048,
-        "type": "PERSON"
-      },
-      {
-        "name": "bar",
-        "salience": 0.1305219531059265,
-        "type": "LOCATION"
-      },
-      {
-        "name": "Jessie",
-        "salience": 0.11365512013435364,
-        "type": "PERSON"
-      },
-      {
-        "name": "movies",
-        "salience": 0.058914050459861755,
-        "type": "WORK_OF_ART"
-      },
-      {
-        "name": "home",
-        "salience": 0.03135562688112259,
-        "type": "LOCATION"
-      },
-    ];
 
-    String getText(String time)
-    {
+    String getText(String time) {
       if(time.contains("PM"))
         return "afternoon";
       return "morning";
     }
+
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: WillPopScope(
         onWillPop: () async {
 
-          print("ADDING A DUMMY SENTIMENT");
-          Random randomGen = Random();
 
-          entry.sentiment = 1 - randomGen.nextDouble()*2;
-          print("entry.sentiment: ${entry.sentiment} oldSentiment: $oldSentiment entry.sentiment - oldSentiment: ${entry.sentiment - oldSentiment}");
-          if (entry.id == -1 && entry.body.length == 0) return true;
+          ///GETTING SENTIMENT
+          Map< String, dynamic> response = await Requests.sentimentAnalysis(entry.body);
+          entry.sentiment = response["score"];
+          entry.confidence = response["magnitude"];
+          // entry.notify();
+
+
+          ///GETTING ENTITIES
+          List<dynamic> list = await Requests.entityAnalysis(entry.body);
+
+
+
+
+          if (entry.id == -1 && entry.body.length == 0)
+            return true;
+          else if (delete==true && entry.id == -1) {
+            return true;
+          } else if (delete == true) {
+
+          }
 
           int id = await entry.save();
 
@@ -103,7 +86,7 @@ class _EntryState extends State<Entry> {
               );
             }
           }
-          print(" GOT HWERE< ABOUT TO GO ");
+
           await AnalyticsModel.add(
             val: DateTime.fromMillisecondsSinceEpoch(entry.date).hour.toString(),
             type: "TIME",
@@ -112,8 +95,6 @@ class _EntryState extends State<Entry> {
           );
 
 
-          await AnalyticsModel.getAllAsMap();
-          await AnalyticsModel.filter(type: "TIME");
           return true;
         },
         child: SafeArea(
@@ -160,7 +141,8 @@ class _EntryState extends State<Entry> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       await entry.delete();
-                                      Navigator.pop(context);
+                                      delete = true;
+                                      Navigator.maybePop(context);
                                     },
                                     child: Icon(
                                       Icons.delete_forever,
