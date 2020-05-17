@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/constants.dart';
+import 'package:flutter_app/models/analytics_model.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/screens/entry.dart';
 import 'package:flutter_app/utilities/time_date.dart';
@@ -124,38 +125,60 @@ class _AnyliticsState extends State<Anylitics> {
       );
     }
 
-    Widget pickArbitraryCards() {
+    Future<Widget> releventCards() async {
+
+
+      String type = "LOCATION";
       if (currentText == "Where") {
-        return Column(
-          children: <Widget>[card("Gym"), card("Home")],
-        );
+
       }
-      if (currentText == "Who") {
-        return Column(
-          children: <Widget>[card("Robert"), card("James")],
-        );
-      }
-      return Column(
-        children: <Widget>[card("Coding"), card("Soccer")],
-      );
+
+      List<AnalyticsModel> theCards = await AnalyticsModel.filter(type: "LOCATION");
+      print(theCards);
+
+      List<Widget> lst = [];
+      for (AnalyticsModel analytic in theCards)
+        lst.add(card(analytic.value));
+
+      return Column(children: lst);
+
+//      if (currentText == "Who") {
+//        return Column(
+//          children: <Widget>[card("Robert"), card("James")],
+//        );
+//      }
+//      return Column(
+//        children: <Widget>[card("Coding"), card("Soccer")],
+//      );
     }
 
     return Container(
       child: Column(
         children: <Widget>[
-        Container(
+          Container(
             margin: EdgeInsets.symmetric(vertical: 20.0),
-            child: Text(pickText(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 19.0,
-          ))),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 16.0),
-          child: pickArbitraryCards()
-        )
-      ]),
+            child: Text(
+              pickText(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 19.0,
+              )
+            )
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 16.0),
+            child: FutureBuilder(
+              future: releventCards(),
+              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                if (!snapshot.hasData)
+                  return Text("");
+                return snapshot.data;
+              }
+            )
+          )
+        ]
+      ),
     );
   }
 
@@ -167,7 +190,6 @@ class _AnyliticsState extends State<Anylitics> {
       border = BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20));
     else if (left)
       border = BorderRadius.only(topLeft: Radius.circular(20), bottomLeft: Radius.circular(20));
-
 
     return Expanded(
       child: Container(
