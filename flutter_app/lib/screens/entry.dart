@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:demoji/demoji.dart';
+import 'package:flutter_app/models/analytics_model.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/utilities/sendRequests.dart';
 import 'package:flutter_app/utilities/time_date.dart';
@@ -20,8 +23,9 @@ class Entry extends StatefulWidget {
 class _EntryState extends State<Entry> {
   TextEditingController noteController = TextEditingController();
 
-  EntryModel entry =
-      EntryModel(sentiment: 0, id: -1, date: 0, confidence: 0, body: "");
+  EntryModel entry = EntryModel(sentiment: 0, id: -1, date: 0, confidence: 0, body: "");
+  double oldSentiment = 0;
+
 
   @override
   void initState() {
@@ -34,8 +38,38 @@ class _EntryState extends State<Entry> {
 
   @override
   Widget build(BuildContext context) {
-    int x = widget.id;
-    double test = 0;
+    List<Map<String, dynamic>> list = [
+      {
+        "name": "lot",
+        "salience": 0.44694051146507263,
+        "type": "OTHER"
+      },
+      {
+        "name": "John",
+        "salience": 0.18721692264080048,
+        "type": "PERSON"
+      },
+      {
+        "name": "bar",
+        "salience": 0.1305219531059265,
+        "type": "LOCATION"
+      },
+      {
+        "name": "Jessie",
+        "salience": 0.11365512013435364,
+        "type": "PERSON"
+      },
+      {
+        "name": "movies",
+        "salience": 0.058914050459861755,
+        "type": "WORK_OF_ART"
+      },
+      {
+        "name": "home",
+        "salience": 0.03135562688112259,
+        "type": "LOCATION"
+      },
+    ];
 
     String getText(String time)
     {
@@ -48,9 +82,37 @@ class _EntryState extends State<Entry> {
       backgroundColor: kBackgroundColor,
       body: WillPopScope(
         onWillPop: () async {
+
+          print("ADDING A DUMMY SENTIMENT");
+          Random randomGen = Random();
+
+          entry.sentiment = 1 - randomGen.nextDouble()*2;
+          print("entry.sentiment: ${entry.sentiment} oldSentiment: $oldSentiment entry.sentiment - oldSentiment: ${entry.sentiment - oldSentiment}");
           if (entry.id == -1 && entry.body.length == 0) return true;
 
-          await entry.save();
+          int id = await entry.save();
+
+          for (Map<String, dynamic> item in list) {
+            if (item["type"] == "PERSON" || item["type"] == "LOCATION") {
+              print(item["name"]);
+              await AnalyticsModel.add(
+                  val: item["name"],
+                  type: item["type"],
+                  id:id,
+                  sentiment: entry.sentiment - oldSentiment,
+              );
+            }
+          }
+          print(" GOT HWERE< ABOUT TO GO ");
+          await AnalyticsModel.add(
+            val: DateTime.fromMillisecondsSinceEpoch(entry.date).hour.toString(),
+            type: "TIME",
+            id:id,
+            sentiment: entry.sentiment - oldSentiment,
+          );
+
+
+          await AnalyticsModel.getAllAsMap();
           return true;
         },
         child: SafeArea(
@@ -60,6 +122,7 @@ class _EntryState extends State<Entry> {
             if (!snapshot.hasData) return Text("");
 
             entry = snapshot.data;
+            oldSentiment = entry.sentiment;
             noteController.text = entry.body;
 
               return Padding(
