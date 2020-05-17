@@ -2,10 +2,16 @@ import json
 
 from flask import Flask, request, jsonify
 from google.cloud import language_v1 as language
-from dotenv import load_dotenv
+import os
+#from dotenv import load_dotenv
 
 app = Flask(__name__)
-load_dotenv()
+
+#load_dotenv()
+
+@app.route('/') # for testing
+def home():
+    return "Hello World"
 
 @app.route('/text/sentiment_analysis', methods=['POST'])
 def sentiment_analysis():
@@ -50,3 +56,7 @@ def entity_analysis():
         })
 
     return jsonify(entities)
+
+if __name__ == "__main__":
+    environment_port = os.getenv("PORT", 5000)
+    app.run(debug=True, host='0.0.0.0', port=environment_port)  
