@@ -9,4 +9,4 @@ COPY ./ /app
 RUN pip install -r requirements.txt
 
 # run the project
-CMD ["python", "AsyncSetUp.py"]
+CMD ["python", "app.py"]
