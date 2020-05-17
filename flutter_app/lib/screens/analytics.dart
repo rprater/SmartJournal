@@ -50,8 +50,8 @@ class _AnyliticsState extends State<Anylitics> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       myButton("Where"),
+                      myButton("When"),
                       myButton("Who"),
-                      myButton("What"),
                     ],
                   ),
                 ),
@@ -64,11 +64,24 @@ class _AnyliticsState extends State<Anylitics> {
         ));
   }
 
+  AssetImage pickImage(String text)
+  {
+    if(text == "Gym")
+      return AssetImage("images/gym.png");
+
+    if(currentText == "Where")
+      return AssetImage("images/building.png");
+    if(currentText == "Who")
+      return AssetImage("images/person.png");
+
+    return AssetImage("images/time.png");
+  }
+
   Widget myCards() {
     String pickText() {
       if (currentText == "Where") return "This is where you are the happiest!";
       if (currentText == "Who") return "This is who makes you the happiest!";
-      return "This is what makes you the happiest!";
+      return "This is when you are the happiest!";
     }
 
     Widget card(String text) {
@@ -88,11 +101,14 @@ class _AnyliticsState extends State<Anylitics> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 20),
-                    width: 16.0,
-                    height: 16.0,
+                    margin: EdgeInsets.only(left: 10, right: 20),
+                    width: 40.0,
+                    height: 40.0,
                     decoration: BoxDecoration(
-                        //  image: AssetImage("images/line.png"),
+                        image: DecorationImage ( 
+                          image: pickImage(text),
+                          fit: BoxFit.fill
+                        ),
                         borderRadius: BorderRadius.circular(40.0)),
                   ),
                   Text(
@@ -125,7 +141,7 @@ class _AnyliticsState extends State<Anylitics> {
         );
       }
       return Column(
-        children: <Widget>[card("Coding"), card("Soccer")],
+        children: <Widget>[card("Sleeping"), card("Coding")],
       );
     }
 

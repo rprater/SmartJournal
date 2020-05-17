@@ -36,5 +36,8 @@ dev_dependencies:
 
 flutter:
   assets: 
-    - images/line.png
+    - images/person.png
+    - images/gym.png
+    - images/building.png
+    - images/time.png
   uses-material-design: true
