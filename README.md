@@ -11,4 +11,16 @@ We utilize this information to try and understand the pattern behind **what a us
 
 ## Setup & Installation
 
+### Flask Server
+
+1. [Install Python](https://www.python.org/downloads/)
+
+2. Navigate to the ```/flask``` folder on the terminal
+
+3. [Create and activate Python virtual environment](https://docs.python.org/3/library/venv.html)
+
+4. Install pip requirements using the following command ```pip install -r requirements.txt```
+
+5. Run flask server using the following command ```flask run```
+
 Please see figma designs [here](https://www.figma.com/file/0l8g4AlfohU0dQrs0E5gOD/RU-Hacks-2020?node-id=15%3A0).
