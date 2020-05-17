@@ -71,7 +71,7 @@ class _EntryState extends State<Entry> {
                     Expanded(
                       flex: 30,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
