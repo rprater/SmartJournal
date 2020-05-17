@@ -77,14 +77,15 @@ class _AnyliticsState extends State<Anylitics> {
   Widget myCards() {
 
     String pickText() {
-      if (currentText == "Where") return "This is where you are happiest!";
+      if (currentText == "Where") return "This is where you are the happiest!";
       if (currentText == "Who") return "This is who makes you the happiest!";
-      return "This is when you are happiest!";
+      return "This is what makes you the happiest!";
     }
 
     Widget card(String text) {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 13),
+        margin: EdgeInsets.symmetric(vertical: 14),
+
         child: RaisedButton(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           shape: RoundedRectangleBorder(
@@ -140,17 +141,16 @@ class _AnyliticsState extends State<Anylitics> {
     }
 
     return Container(
-      margin: EdgeInsets.all(10.0),
-      padding: EdgeInsets.all(10.0),
-      child: Column(children: <Widget>[
+      child: Column(
+        children: <Widget>[
         Container(
-            margin: EdgeInsets.symmetric(vertical: 8.0),
+            margin: EdgeInsets.symmetric(vertical: 20.0),
             child: Text(pickText(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontSize: 19.0,
-                ))),
+          ))),
         Container(
           margin: EdgeInsets.symmetric(vertical: 16.0),
           child: pickArbitraryCards()
