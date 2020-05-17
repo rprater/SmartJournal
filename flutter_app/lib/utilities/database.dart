@@ -1,3 +1,4 @@
+import 'package:flutter_app/models/analytics_model.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -27,6 +28,14 @@ class DB {
         "confidence REAL, "
         "date INTEGER "
         ")");
+
+    await db.execute("DROP TABLE IF EXISTS ${AnalyticsModel.tableName}");
+    await db.execute("CREATE TABLE IF NOT EXISTS ${AnalyticsModel.tableName} ( "
+        "value TEXT PRIMARY KEY , "
+        "type TEXT, "
+        "sentiment REAL, "
+        "occurrences TEXT "
+        ")");
   }
 
 //  Connects to the database
@@ -37,7 +46,7 @@ class DB {
 
     Database connection = await openDatabase(
         dbPath,
-        version: 2,
+        version: 1,
         onUpgrade: (Database db, int oldVersion, int newVersion) async {
           await DB.setupDB(db);
         },

@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:demoji/demoji.dart';
+import 'package:flutter_app/models/analytics_model.dart';
 import 'package:flutter_app/models/entry_model.dart';
 import 'package:flutter_app/utilities/sendRequests.dart';
 import 'package:flutter_app/utilities/time_date.dart';
@@ -20,8 +23,9 @@ class Entry extends StatefulWidget {
 class _EntryState extends State<Entry> {
   TextEditingController noteController = TextEditingController();
 
-  EntryModel entry =
-      EntryModel(sentiment: 0, id: -1, date: 0, confidence: 0, body: "");
+  EntryModel entry = EntryModel(sentiment: 0, id: -1, date: 0, confidence: 0, body: "");
+  double oldSentiment = 0;
+  bool delete = false;
 
   @override
   void initState() {
@@ -34,23 +38,63 @@ class _EntryState extends State<Entry> {
 
   @override
   Widget build(BuildContext context) {
-    int x = widget.id;
-    double test = 0;
 
-    String getText(String time)
-    {
+    String getText(String time) {
       if(time.contains("PM"))
         return "afternoon";
       return "morning";
     }
 
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: WillPopScope(
         onWillPop: () async {
-          if (entry.id == -1 && entry.body.length == 0) return true;
 
-          await entry.save();
+
+          ///GETTING SENTIMENT
+          Map< String, dynamic> response = await Requests.sentimentAnalysis(entry.body);
+          entry.sentiment = response["score"];
+          entry.confidence = response["magnitude"];
+          // entry.notify();
+
+
+          ///GETTING ENTITIES
+          List<dynamic> list = await Requests.entityAnalysis(entry.body);
+
+
+
+
+          if (entry.id == -1 && entry.body.length == 0)
+            return true;
+          else if (delete==true && entry.id == -1) {
+            return true;
+          } else if (delete == true) {
+
+          }
+
+          int id = await entry.save();
+
+          for (Map<String, dynamic> item in list) {
+            if (item["type"] == "PERSON" || item["type"] == "LOCATION") {
+              print(item["name"]);
+              await AnalyticsModel.add(
+                  val: item["name"],
+                  type: item["type"],
+                  id:id,
+                  sentiment: entry.sentiment - oldSentiment,
+              );
+            }
+          }
+
+          await AnalyticsModel.add(
+            val: DateTime.fromMillisecondsSinceEpoch(entry.date).hour.toString(),
+            type: "TIME",
+            id:id,
+            sentiment: entry.sentiment - oldSentiment,
+          );
+
+
           return true;
         },
         child: SafeArea(
@@ -60,6 +104,7 @@ class _EntryState extends State<Entry> {
             if (!snapshot.hasData) return Text("");
 
             entry = snapshot.data;
+            oldSentiment = entry.sentiment;
             noteController.text = entry.body;
 
               return Padding(
@@ -96,7 +141,8 @@ class _EntryState extends State<Entry> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       await entry.delete();
-                                      Navigator.pop(context);
+                                      delete = true;
+                                      Navigator.maybePop(context);
                                     },
                                     child: Icon(
                                       Icons.delete_forever,
