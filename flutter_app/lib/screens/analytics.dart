@@ -65,12 +65,6 @@ class _AnyliticsState extends State<Anylitics> {
   }
 
   Widget myCards() {
-    Color pickColor() {
-      if (currentText == "Where") return Colors.white;
-      if (currentText == "Who") return Colors.grey.shade600;
-      return Colors.orange;
-    }
-
     String pickText() {
       if (currentText == "Where") return "This is where you are happiest!";
       if (currentText == "Who") return "This is who makes you the happiest!";
@@ -116,17 +110,53 @@ class _AnyliticsState extends State<Anylitics> {
       );
     }
 
+    Color pickColor() {
+      if (currentText == "Where") return Colors.white;
+      if (currentText == "Who") return Colors.grey.shade600;
+      return Colors.orange;
+    }
+
+    Widget pickArbitraryCards()
+    {
+      if (currentText == "Where") 
+      {
+        return Column(
+          children: <Widget> [
+            card("Gym"),
+            card("Home")
+          ],
+        );
+      }
+      if (currentText == "Who") 
+      {
+        return Column(
+          children: <Widget> [
+            card("Robert"),
+            card("James")
+          ],
+        );
+      }
+      return Column(
+        children: <Widget> [
+            card("Coding"),
+            card("Soccer")
+        ],
+      );
+    }
+
     return Container(
       margin: EdgeInsets.all(10.0),
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(10.0),
       child: Column(children: <Widget>[
-        Text(pickText(),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(pickText(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
               fontSize: 19.0,
-            )),
-        card("Gym")
+            ))),
+        pickArbitraryCards()
       ]),
     );
   }
